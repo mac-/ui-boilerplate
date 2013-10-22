@@ -1,4 +1,4 @@
-configurine-ui
+ui-boilerplate
 ==============
 
-A UI for Configurine
+A UI for whatever your heart desires
