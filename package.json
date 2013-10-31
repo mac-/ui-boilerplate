@@ -1,52 +1,56 @@
 {
-	"name": "ui-boilerplate",
-	"description": "An application...",
-	"contributors": [
-		"Mac Angell <mac.ang311@gmail.com>"
-	],
-	"version": "1.0.0",
-	"dependencies": {
-		"underscore": "1.x.x",
-		"harvey": "0.x.x"
-	},
-	"devDependencies": {
-		"mocha": "1.x.x",
-		"nock": "0.x.x",
-		"jshint": "2.x.x",
-		"blanket": "1.0.x",
-		"travis-cov": "0.2.x",
-		"sinon": "1.x.x",
-		"ractive": "0.x.x",
-		"grunt": "0.x.x",
-		"grunt-contrib-watch": "0.x.x",
-		"grunt-absurd": "0.x.x",
-		"grunt-contrib-uglify": "0.x.x",
-		"grunt-contrib-concat": "0.x.x",
-		"grunt-contrib-jshint": "0.x.x",
-		"grunt-contrib-cssmin": "0.x.x",
-		"grunt-contrib-copy": "0.x.x",
-		"grunt-contrib-clean": "0.x.x",
-		"grunt-ejs": "0.x.x"
-	},
-	"keywords": [],
-	"engines": {
-		"node": ">=0.10.0"
-	},
-	"main": "./app.js",
-	"repository": {
-		"type": "git",
-		"url": "git@github.com:mac-/configurine-ui.git"
-	},
-	"scripts": {
-		"test": "make test && make test-cov",
-		"blanket": {
-			"pattern": "//^((?!\/node_modules\/)(?!\/test\/).)*$/gi",
-			"onlyCwd": true,
-			"data-cover-flags": {
-				"branchTracking": true
-			}
-		},
-		"travis-cov": { "threshold": 90 },
-		"start": "app.js"
-	}
+  "name": "ui-boilerplate",
+  "description": "An application...",
+  "contributors": [
+    "Mac Angell <mac.ang311@gmail.com>"
+  ],
+  "version": "1.0.0",
+  "dependencies": {
+    "underscore": "1.x.x",
+    "harvey": "0.x.x"
+  },
+  "devDependencies": {
+    "mocha": "1.x.x",
+    "nock": "0.x.x",
+    "jshint": "2.x.x",
+    "blanket": "1.0.x",
+    "travis-cov": "0.2.x",
+    "sinon": "1.x.x",
+    "ractive": "0.x.x",
+    "grunt": "0.x.x",
+    "grunt-contrib-watch": "0.x.x",
+    "grunt-absurd": "0.x.x",
+    "grunt-contrib-uglify": "0.x.x",
+    "grunt-contrib-concat": "0.x.x",
+    "grunt-contrib-jshint": "0.x.x",
+    "grunt-contrib-cssmin": "0.x.x",
+    "grunt-contrib-copy": "0.x.x",
+    "grunt-contrib-clean": "0.x.x",
+    "grunt-ejs": "0.x.x",
+    "browserify": "2.x.x",
+    "grunt-browserify": "1.x.x"
+  },
+  "keywords": [],
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "main": "./app.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mac-/ui-boilerplate.git"
+  },
+  "scripts": {
+    "test": "make test && make test-cov",
+    "blanket": {
+      "pattern": "//^((?!/node_modules/)(?!/test/).)*$/gi",
+      "onlyCwd": true,
+      "data-cover-flags": {
+        "branchTracking": true
+      }
+    },
+    "travis-cov": {
+      "threshold": 100
+    },
+    "start": "app.js"
+  }
 }

@@ -5,20 +5,35 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		clean: {
-			task: {
+			all: {
 				src: 'dist/**/*'
+			},
+			css: {
+				src: 'dist/css/**/*'
+			},
+			js: {
+				src: 'dist/js/**/*'
+			},
+			html: {
+				src: 'dist/index*.html'
 			}
 		},
-		concat: {
-			options: {
-				// define a string to put between each file in the concatenated output
-				separator: ';'
-			},
+		browserify: {
 			task: {
-				// the files to concatenate
-				src: ['src/js/**/*.js'],
-				// the location of the resulting JS file
-				dest: 'dist/js/<%= pkg.name %>.js'
+				src: ['src/js/**/*.js', '!src/js/libs/**/*.js'],
+				dest: 'dist/js/<%= pkg.name %>.js',
+				options: {
+					shim: {
+						Racive: {
+							path: 'src/js/libs/ractive.min.js',
+							exports: 'Ractive'
+						},
+						jQuery: {
+							path: 'src/js/libs/jquery.min.js',
+							exports: '$'
+						}
+					}
+				}
 			}
 		},
 		uglify: {
@@ -28,7 +43,7 @@ module.exports = function(grunt) {
 			},
 			task: {
 				files: {
-					'dist/js/<%= pkg.name %>.min.js': ['<%= concat.task.dest %>']
+					'dist/js/<%= pkg.name %>.min.js': ['<%= browserify.client.dest %>']
 				}
 			}
 		},
@@ -40,7 +55,7 @@ module.exports = function(grunt) {
 			},
 			task: {
 				files: {
-					'dist/css/<%= pkg.name %>.min.css': ['<%= absurd.task.dest %>']
+					'dist/css/<%= pkg.name %>.min.css': ['<%= absurd.task.dest %>', 'src/css/libs/*.css']
 				}
 			}
 		},
@@ -59,17 +74,37 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			task: {
-				files: ['src/**/*', 'Gruntfile.js'],
-				tasks: ['default']
+			js: {
+				files: ['src/js/**/*', 'src/templates/**/*'],
+				tasks: ['build-js']
+			},
+			css: {
+				files: ['src/css/**/*'],
+				tasks: ['build-css']
+			},
+			html: {
+				files: ['src/index.html'],
+				tasks: ['build-html']
 			}
 		},
 		copy: {
-			task: {
+			fonts: {
 				expand: true,
-				src: 'src/index.html',
-				dest: 'dist/',
+				src: 'src/css/fonts/*',
+				dest: 'dist/css/fonts/',
 				flatten: true
+			},
+			images: {
+				expand: true,
+				src: 'src/css/images/*',
+				dest: 'dist/css/images/',
+				flatten: true
+			}
+		},
+		concat: {
+			css: {
+				src: ['<%= absurd.task.dest %>', 'src/css/libs/*.css'],
+				dest: 'dist/css/<%= pkg.name %>.css'
 			}
 		},
 		ejs: {
@@ -105,18 +140,27 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-ejs');
 	grunt.loadNpmTasks('grunt-absurd');
+	grunt.loadNpmTasks('grunt-browserify');
 
 	grunt.registerTask('compile-templates', function() {
-		var templateFileContent = '/* This file was auto-generated at ' + grunt.template.today('dddd, mmmm dS, yyyy, h:MM:ss TT') + '*/\nvar compiledTemplates = {};';
+		var compiledTemplates = {};
+		var templateFileContent = '/* This file was auto-generated at ' + grunt.template.today('dddd, mmmm dS, yyyy, h:MM:ss TT') + '*/\n';
 		grunt.file.recurse('src/templates', function(absPath, rootDir, subDir, fileName) {
 			var name = fileName.substring(0, fileName.lastIndexOf('.'));
-			var template = grunt.file.read(absPath, { encoding: 'utf8' });
-			template = Ractive.parse(template);
-			templateFileContent += 'compiledTemplates[\'' + name + '\'] = ' + JSON.stringify(template) + ';';
+			var ext = fileName.substring(fileName.lastIndexOf('.')+1);
+			if (ext === 'html') {
+				var template = grunt.file.read(absPath, { encoding: 'utf8' });
+				compiledTemplates[name] = Ractive.parse(template);
+			}
 		});
-		grunt.file.write('src/js/compiledTemplates.js', templateFileContent, { encoding: 'utf8' });
+
+		templateFileContent += 'module.exports=' + JSON.stringify(compiledTemplates) + ';';
+		grunt.file.write('src/templates/index.js', templateFileContent, { encoding: 'utf8' });
 	});
 
-	grunt.registerTask('default', ['compile-templates', 'clean', 'jshint', 'absurd', 'cssmin', 'concat', 'uglify', 'ejs', 'watch']);
-
+	grunt.registerTask('build-css', ['clean:css', 'absurd', 'cssmin', 'concat:css', 'copy:fonts', 'copy:images']);
+	grunt.registerTask('build-js', ['clean:js', 'compile-templates', 'jshint', 'browserify']);
+	grunt.registerTask('build-html', ['clean:html', 'ejs']);
+	grunt.registerTask('default', ['build-css', 'build-js', 'build-html', 'watch']);
+	
 };

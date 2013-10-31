@@ -1,2 +1,0 @@
-/* This file was auto-generated at Monday, October 21st, 2013, 11:56:27 PM*/
-var compiledTemplates = {};compiledTemplates['main'] = [{"t":7,"e":"div","a":{"id":"header"},"f":[{"t":7,"e":"h1","f":[{"t":2,"r":"title2"}]}]}," ",{"t":7,"e":"div","a":{"id":"page"},"f":"<p>Welcome!</p>"}];
