@@ -4,8 +4,8 @@ clean:
 install:
 	npm install
 
-update:
-	make clean && rm -rf npm-shrinkwrap.json && npm install && npm shrinkwrap
+build: install
+	./node_modules/.bin/grunt
 
 test:
 	./node_modules/.bin/jshint app.js lib/* --config test/jshint/config.json

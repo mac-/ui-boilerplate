@@ -21,16 +21,12 @@ module.exports = function(grunt) {
 		browserify: {
 			task: {
 				src: ['src/js/**/*.js', '!src/js/libs/**/*.js'],
-				dest: 'dist/js/<%= pkg.name %>.js',
+				dest: 'dist/js/<%= pkg.name %>-browserify.js',
 				options: {
 					shim: {
-						Racive: {
+						Ractive: {
 							path: 'src/js/libs/ractive.min.js',
 							exports: 'Ractive'
-						},
-						jQuery: {
-							path: 'src/js/libs/jquery.min.js',
-							exports: '$'
 						}
 					}
 				}
@@ -43,7 +39,7 @@ module.exports = function(grunt) {
 			},
 			task: {
 				files: {
-					'dist/js/<%= pkg.name %>.min.js': ['<%= browserify.client.dest %>']
+					'dist/js/<%= pkg.name %>.min.js': ['<%= concat.js.dest %>']
 				}
 			}
 		},
@@ -62,7 +58,7 @@ module.exports = function(grunt) {
 		jshint: {
 			files: ['Gruntfile.js', 'src/js/**/*.js', 'test/unit/**/*.js'],
 			options: {
-				ignores: ['src/js/libs/*.js', 'src/js/compiledTemplates.js'],
+				ignores: ['src/js/libs/**/*.js', 'src/js/compiledTemplates.js'],
 				jshintrc: 'test/jshint/config.json',
 				reporter: 'test/jshint/reporter.js'
 			}
@@ -105,6 +101,10 @@ module.exports = function(grunt) {
 			css: {
 				src: ['<%= absurd.task.dest %>', 'src/css/libs/*.css'],
 				dest: 'dist/css/<%= pkg.name %>.css'
+			},
+			js: {
+				src: ['src/js/libs/global/*.js', '<%= browserify.task.dest %>'],
+				dest: 'dist/js/<%= pkg.name %>.js'
 			}
 		},
 		ejs: {
@@ -159,7 +159,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('build-css', ['clean:css', 'absurd', 'cssmin', 'concat:css', 'copy:fonts', 'copy:images']);
-	grunt.registerTask('build-js', ['clean:js', 'compile-templates', 'jshint', 'browserify']);
+	grunt.registerTask('build-js', ['clean:js', 'compile-templates', 'jshint', 'browserify', 'concat:js']);
 	grunt.registerTask('build-html', ['clean:html', 'ejs']);
 	grunt.registerTask('default', ['build-css', 'build-js', 'build-html', 'watch']);
 	
