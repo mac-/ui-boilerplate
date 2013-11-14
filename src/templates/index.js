@@ -1,2 +1,2 @@
-/* This file was auto-generated at Wednesday, November 13th, 2013, 6:18:31 AM*/
+/* This file was auto-generated at Thursday, November 14th, 2013, 4:16:20 AM*/
 module.exports={"main":[{"t":7,"e":"div","a":{"class":"ui top inverted black sidebar menu active"},"f":[{"t":7,"e":"div","a":{"class":"header item"},"f":[{"t":2,"r":"title"}]}]}," ",{"t":7,"e":"div","a":{"class":"top pushed"},"f":"<h1 class=\"ui header\">Welcome!</h1>"}]};

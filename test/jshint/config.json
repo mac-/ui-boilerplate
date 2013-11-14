@@ -47,5 +47,6 @@
 	"validthis": false,
 
 	"node": true,
-	"browser": true
+	"browser": true,
+	"globals": { "jQuery": false }
 }
