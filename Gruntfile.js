@@ -16,6 +16,9 @@ module.exports = function(grunt) {
 			},
 			html: {
 				src: 'dist/index*.html'
+			},
+			browserify: {
+				src: '<%= browserify.task.dest %>'
 			}
 		},
 		browserify: {
@@ -159,7 +162,7 @@ module.exports = function(grunt) {
 	});
 
 	grunt.registerTask('build-css', ['clean:css', 'absurd', 'cssmin', 'concat:css', 'copy:fonts', 'copy:images']);
-	grunt.registerTask('build-js', ['clean:js', 'compile-templates', 'jshint', 'browserify', 'concat:js']);
+	grunt.registerTask('build-js', ['clean:js', 'compile-templates', 'jshint', 'browserify', 'concat:js', 'uglify', 'clean:browserify']);
 	grunt.registerTask('build-html', ['clean:html', 'ejs']);
 	grunt.registerTask('default', ['build-css', 'build-js', 'build-html', 'watch']);
 	
