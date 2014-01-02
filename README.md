@@ -40,3 +40,7 @@ A UI for whatever your heart desires
 
 * Pick a unit testing library
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mac-/ui-boilerplate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
