@@ -9,7 +9,7 @@ module.exports = function(grunt) {
 				src: 'dist/**/*'
 			},
 			css: {
-				src: 'dist/css/**/*'
+				src: ['dist/css/**/*', 'dist/fonts/**/*', 'dist/images/**/*']
 			},
 			js: {
 				src: 'dist/js/**/*'
@@ -90,13 +90,13 @@ module.exports = function(grunt) {
 			fonts: {
 				expand: true,
 				src: 'src/css/fonts/*',
-				dest: 'dist/css/fonts/',
+				dest: 'dist/fonts/',
 				flatten: true
 			},
 			images: {
 				expand: true,
 				src: 'src/css/images/*',
-				dest: 'dist/css/images/',
+				dest: 'dist/images/',
 				flatten: true
 			}
 		},
