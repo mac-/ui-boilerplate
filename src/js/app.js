@@ -1,8 +1,14 @@
-var page = require('./libs/page.js');
-//var ractive = require('./views/test.js');
+var Router = require('./router'),
+	router = new Router(),
+	MainView = require('./views/main'),
+	HelloView = require('./views/hello'),
+	WorldView = require('./views/world');
 
-page('*', function() {
-	//ractive.set({title2: 'win'});
-});
 
-page();
+router.addRoute('/', MainView);
+router.addRoute('/hello', HelloView);
+router.addRoute('/world', WorldView);
+
+
+router.go('/');
+
