@@ -1,7 +1,7 @@
 ui-boilerplate
 ==============
 
-A UI for whatever your heart desires
+A UI for whatever your heart desires with a preference towards micro frameworks over giant frameworks (emberjs, angularjs, dojo, etc.)
 
 ## Things this project uses
 
@@ -40,7 +40,4 @@ A UI for whatever your heart desires
 
 * Pick a unit testing library
 
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/mac-/ui-boilerplate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
