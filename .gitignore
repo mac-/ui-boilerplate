@@ -4,3 +4,4 @@ node_modules
 .DS*
 test/coverage*
 dist/*
+src/templates/index.js

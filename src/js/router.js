@@ -37,8 +37,17 @@ function Router(options) {
 
 	var self = this,
 		routesByPathSegment = {},
+		currentPath = null,
 		currentRoute = null,
 		basePath = options.basePath.replace(/^([^\/])/, '/$1').replace(/\/$/, ''); // ensure beginning slash, remove trailing slash
+
+	window.onpopstate = function(event) {
+		console.log('location: ' + document.location + ', state: ', event);
+		if (event.state && event.state.path && '/' +  event.state.path !== currentPath) {
+			//TODO: fix this logic... creating too many entries in the back history
+			self.go('/' +  event.state.path);
+		}
+	};
 
 	this.addRoute = function(path, View) {
 		path = path.replace(/^\//, '').replace(/\/$/, '');
@@ -91,7 +100,8 @@ function Router(options) {
 		page(path, function(){});
 	};
 
-	this.go = function(path) {
+	this.go = function(path, context) {
+		context = context || {};
 		path = path.replace(/^\//, '').replace(/\/$/, '');
 		var pathParts = (path.length) ? path.split('/') : [];
 
@@ -99,7 +109,7 @@ function Router(options) {
 			viewInitFunctions = [],
 			initFunc = function(route) {
 				return function(callback) {
-					route.viewInstance = new route.View(self);
+					route.viewInstance = new route.View(self, context);
 					route.viewInstance.on('create', function() {
 						callback();
 					});
@@ -122,7 +132,8 @@ function Router(options) {
 				currentRoute.viewInstance.hide();
 			}
 			currentRoute = parent.route;
-			currentRoute.viewInstance.show();
+			currentRoute.viewInstance.show(context);
+			currentPath = path;
 			page(path);
 		});
 	};

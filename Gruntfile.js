@@ -1,4 +1,5 @@
-var Ractive = require('ractive');
+var Ractive = require('ractive'),
+	path = require('path');
 
 module.exports = function(grunt) {
 
@@ -149,8 +150,10 @@ module.exports = function(grunt) {
 		var compiledTemplates = {};
 		var templateFileContent = '/* This file was auto-generated at ' + grunt.template.today('dddd, mmmm dS, yyyy, h:MM:ss TT') + '*/\n';
 		grunt.file.recurse('src/templates', function(absPath, rootDir, subDir, fileName) {
-			var name = fileName.substring(0, fileName.lastIndexOf('.'));
-			var ext = fileName.substring(fileName.lastIndexOf('.')+1);
+			var slashRegex = new RegExp(path.sep, 'g'),
+				ns = (subDir) ? subDir.replace(slashRegex, '.') + '.' : '',
+				name = ns + fileName.substring(0, fileName.lastIndexOf('.')),
+				ext = fileName.substring(fileName.lastIndexOf('.')+1);
 			if (ext === 'html') {
 				var template = grunt.file.read(absPath, { encoding: 'utf8' });
 				compiledTemplates[name] = Ractive.parse(template);
